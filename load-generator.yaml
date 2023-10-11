@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: load-generator
+  namespace: kube-system
+  labels:
+    app: load-generator
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: load-generator
+  template:
+    metadata:
+      labels:
+        app: load-generator
+    spec:
+      containers:
+        - name: load-generator
+          image: busybox
+          command:
+            - "/bin/sh"
+            - "-c"
+            - "while sleep 0.01; do wget -q -O- http://php-apache.default; done"
